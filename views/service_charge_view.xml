@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id='service_charge_view_tree' model='ir.ui.view'>
+        <field name="name">service.charge.view.tree</field>
+        <field name="model">service.charge</field>
+        <field name="arch" type="xml">
+            <tree>
+                 <field name="vehicle_make"/>
+                 <field name="vehicle_model"/>
+                 <field name="alg_charge_front"/>
+                 <field name="alg_charge_rear" />
+                 <field name="balance_charge_per_tire"/>
+                 <field name="bal_charge_per_gms_used"/>
+                 <field name="charge_per_tire_change"/>
+            </tree>             
+        </field> 
+    </record>
+    <record id='service_charge_view_form' model='ir.ui.view'>
+        <field name="name">service.charge.view.form</field>
+        <field name="model">service.charge</field>
+        <field name="arch" type="xml">
+            <form string='Vehicle Service'>
+                <sheet>
+                    <group>
+                        <group>     
+                            <field name="vehicle_make"/>
+			                 <field name="vehicle_model"/>
+			                 <field name="alg_charge_front"/>
+			                 <field name="alg_charge_rear" />
+                        </group>
+                        <group>
+                            <field name="balance_charge_per_tire"/>
+                 			<field name="bal_charge_per_gms_used"/>
+                 			<field name="charge_per_tire_change"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>             
+        </field> 
+    </record>
+    <record id="service_charge_action" model="ir.actions.act_window">
+    	<field name="name">service.charge.action</field>
+    	<field name="res_model">service.charge</field>
+    	<field name="view_type">form</field>
+    	<field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="service_charge_menu_root" name="Configurations" parent="garage_menu_root"/>
+    <menuitem id="service_charge_menu_action" name="Service Charges" parent="service_charge_menu_root" action="service_charge_action"/>
+
+    <!-- for make and model of vehicle -->
+    <!--  for make -->
+    <record id='vehicle_make_view_tree' model='ir.ui.view'>
+        <field name="name">vehicle.make.view.tree</field>
+        <field name="model">vehicle.make</field>
+        <field name="arch" type="xml">
+            <tree>
+                 <field name="vehicle_make"/>
+                 <field name="country"/>
+            </tree>             
+        </field> 
+    </record>
+    <record id='vehicle_make_view_from' model='ir.ui.view'>
+        <field name="name">vehicle.make.view.form</field>
+        <field name="model">vehicle.make</field>
+        <field name="arch" type="xml">
+        	<form>
+        		<sheet>
+        			<group>
+        				<field name="vehicle_make"/>
+        				<field name="country"/>    				
+        			</group>
+        		</sheet>
+        	</form>
+        </field>
+    </record>
+    <!--  end for make -->
+    <!-- for vehicle model -->
+    <record id='vehicle_model_view_tree' model='ir.ui.view'>
+        <field name="name">vehicle.model.view.tree</field>
+        <field name="model">vehicle.model</field>
+        <field name="arch" type="xml">
+            <tree>
+                 <field name="vehicle_make"/>
+                 <field name="vehicle_model"/>
+            </tree>             
+        </field> 
+    </record>
+    <record id='vehicle_model_view_form' model='ir.ui.view'>
+        <field name="name">vehicle.model.view.form</field>
+        <field name="model">vehicle.model</field>
+        <field name="arch" type="xml">
+        	<form>
+        		<sheet>
+        			<group>
+        				<field name="vehicle_make"/>
+        				<field name="vehicle_model"/>    				
+        			</group>
+        		</sheet>
+        	</form>
+        </field>
+    </record>
+    <record id="vehicle_make_action" model="ir.actions.act_window">
+    	<field name="name">vehicle.make.action</field>
+    	<field name="res_model">vehicle.make</field>
+    	<field name="view_type">form</field>
+    	<field name="view_mode">tree,form</field>
+    </record>
+        <record id="vehicle_model_action" model="ir.actions.act_window">
+    	<field name="name">vehicle.model.action</field>
+    	<field name="res_model">vehicle.model</field>
+    	<field name="view_type">form</field>
+    	<field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="vehicle_make_menu_action" name="Vehicle Make" parent="service_charge_menu_root" action="vehicle_make_action"/>
+    <menuitem id="vehicle_model_menu_action" name="Vehicle Model" parent="service_charge_menu_root" action="vehicle_model_action"/>
+
+</odoo>
+
+
+
+
+
+
+

@@ -1,3 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import garage_customer
+from . import garage
+from . import service
+from . import vehicle

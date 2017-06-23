@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- vehicle service views -->
+    <record id='vehicle_service_view_tree' model='ir.ui.view'>
+        <field name="name">vehicle.service.view.tree</field>
+        <field name="model">vehicle.service</field>
+        <field name="arch" type="xml">
+            <tree>
+                 <field name="customer_id"/>
+                 <field name="service_record_no"/>
+                 <field name="service_date"/>
+                 <field name="registration_no" />
+                 <field name="vehicle_make_id"/>
+                 <field name="vehicle_model_id"/>
+                 <field name="odometer"/>
+                 <field name="balancing_line_ids"/>
+                 <field name="alighnment_line_ids"/>
+                 <field name='misc_service_line_ids'/>
+                 <field name="total"/>
+            </tree>             
+        </field> 
+    </record>
+    <record id='vehicle_service_view_form' model='ir.ui.view'>
+        <field name="name">vehicle.service.view.form</field>
+        <field name="model">vehicle.service</field>
+        <field name="arch" type="xml">
+            <form string='Vehicle Service'>
+                <header>
+                <button name="_action_paid" string="Mark as Paid" type="action" class="btn-primary oe_highlight" attrs="{'invisible': [('state', '==', 'paid')]}"/>
+                <button name="_action_paid" string="Reset to Draft" type="action"  attrs="{'invisible': ['|',('state', '!=', 'paid'), ('state', '!=', 'ready')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,ready,paid"/>   
+                </header>
+                <sheet>
+                    <group>
+                        <group>     
+                            <field name="customer_id"/>
+                            <field name="service_date"/>
+                            <field name="service_record_no"/>   
+
+                        </group>
+                        <group>
+                            <field name="registration_no" />
+                            <field name="vehicle_make_id"/>
+                            <field name="vehicle_model_id"/>
+                            <field name="odometer"/>
+                        </group>
+                    </group>
+                        <notebook>
+                            <page string="Service lines">
+                                <field name="balancing_line_ids" mode="tree">
+                                    <tree>
+                                        <field name="service_invoice"/>   
+                                        <field name="wheel_balanced"/>
+                                        <field name="weight_used_in_gms"/>
+                                        <field name="total_charge"/>
+                                    </tree>
+                                </field>
+                                <field name="alighnment_line_ids">
+                                    <tree>
+                                        <field name="service_invoice"/>   
+                                        <field name="align_position"/>
+                                        <field name="total_charge"/>
+                                    </tree>
+                                </field>
+                                <field name='misc_service_line_ids'>
+                                    <tree>
+                                        <field name="service_invoice"/>   
+                                        <field name="service_name"/>
+                                        <field name="service_charge"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="total" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                        
+                </sheet>
+            </form>             
+        </field> 
+    </record>
+    <record id="vehicle_service_action" model="ir.actions.act_window">
+        <field name="name">Vehicle Service</field>
+        <field name="res_model">vehicle.service</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,graph</field>
+    </record>
+
+        <menuitem id ="garage_menu_root" sequence = "1" name = "Garage" web_icon="jbm,icon.png"/>
+        <menuitem id="vehicle_service_menu_root" name="Vehicle Service" parent="garage_menu_root" sequence="1"/>
+        <menuitem id="vehicle_service_menu_action" name="Service Records" parent="vehicle_service_menu_root" action="vehicle_service_action"/>
+</odoo>

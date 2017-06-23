@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Jai Balaji Motors',
+    'name': 'Garage',
     'version': '1.0',
     'category': 'Automobiles',
-    'Author': 'Bhavesh K',
-    'Mail': 'bkagathara@gmail.com',
+    'Author': 'Pankaj K',
+    'Mail': 'kamanipankaj9099@gmail.com',
     'description': """
     * Alighnment Garage management
     * Expense
     * Accounting
     """,
-    'depends': ['base'],
+    'depends': ['base', 'hr'],
     'data': [
-        # 'views/jbm_view.xml',
-        # 'views/sequence.xml',
-        # 'views/invoice_report.xml',
-        # 'views/summary_report.xml',
-        # 'security/jbm_security.xml',
         # 'security/ir.model.access.csv',
+        'views/sequence.xml',
+        'views/garage_views.xml',
+        'views/service_charge_view.xml',
     ],
     'installable': True,
     'auto_install': False,

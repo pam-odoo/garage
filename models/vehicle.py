@@ -19,6 +19,7 @@ class VehicleServiceCharge(models.Model):
 class VehicleMake(models.Model):
     _name = 'vehicle.make'
     _description = 'Description'
+    _rec_name = 'vehicle_make'
 
     vehicle_make = fields.Char(string='Brand Name/ Make',)
     country = fields.Many2one('res.country')
@@ -29,7 +30,7 @@ class VehicleMake(models.Model):
 class VehicleModel(models.Model):
     _name = 'vehicle.model'
     _description = 'Model of the vehicle i.e Tiago,baleno,avantedore etc.'
-    _rec_name = 'model_name'
+    _rec_name = 'vehicle_model'
 
     vehicle_make = fields.Many2one('vehicle.make', string='Brand Name/ Make', required=True)
-    model_name = fields.Char(string='Model Name')
+    vehicle_model = fields.Char(string='Model Name')
