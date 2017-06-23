@@ -25,8 +25,8 @@ class ServiceInvoice(models.Model):
         return super(customer, self).create(vals)
 
 
-class ServiceAlignmentLine(models.Model):
-    _name = 'service.alignment.line'
+class ServiceLine(models.Model):
+    _name = 'service.line'
     _description = 'Record of the each alighnment done in the vehicle like fornt wheel alignment'
 
     @api.depends('align_position')
@@ -34,34 +34,12 @@ class ServiceAlignmentLine(models.Model):
         """
         Compute the amounts of the Service line.
         """
-        import pdb
-        pdb.set_trace()
+        pass
     service_invoice = fields.Many2one('vehicle.service')
     align_position = fields.Selection([('front', 'Front'), ('rear', 'Rear')])
-    total_charge = fields.Float(compute="_compute_total_charge", readonly=True, store=True)
-
-
-class ServiceWheelBalancingLine(models.Model):
-    _name = 'service.wheelbalance.line'
-    _description = 'reord of the each balance work done in the vehicle like fornt wheel alignment'
-
-    @api.depends('wheel_balanced', 'weight_used_in_gms')
-    def _compute_total_charge(self):
-        """
-        Compute the amounts of the Service line.
-        """
-        import pdb
-        pdb.set_trace()
-    service_invoice = fields.Many2one('vehicle.service')
     wheel_balanced = fields.Integer('Total Wheel Balanced', store=True)
     weight_used_in_gms = fields.Float(string="Total Grams used", store=True)
-    total_charge = fields.Float(compute="_compute_total_charge", readonly=True, store=True)
-
-
-class ServiceMiscLine(models.Model):
-    _name = 'service.misc.line'
-    _description = 'reord of the each balance work done in the vehicle like fornt wheel alignment'
-
-    service_invoice = fields.Many2one('vehicle.service')
-    service_name = field_name = fields.Char(required=True)
-    service_charge = fields.Float(required=True, readonly=True, store=True)
+    tyre_change_qty = fields.Integer(string='Tyre Change')
+    other_service_name = fields.Char()
+    other_service_charge = fields.Float(required=True, readonly=True, store=True)
+    subtotal = fields.Float(compute="_compute_total_charge", readonly=True, store=True)

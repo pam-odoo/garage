@@ -13,9 +13,7 @@
                  <field name="vehicle_make_id"/>
                  <field name="vehicle_model_id"/>
                  <field name="odometer"/>
-                 <field name="balancing_line_ids"/>
-                 <field name="alighnment_line_ids"/>
-                 <field name='misc_service_line_ids'/>
+                 <field name='service_line_ids'/>
                  <field name="total"/>
             </tree>             
         </field> 
@@ -31,12 +29,16 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,open,ready,paid"/>   
                 </header>
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="service_record_no" readonly="1"/>
+                        </h1>
+                    </div>
                     <group>
-                        <group>     
+                        <group>
+                            <field name="image" widget="image" class="oe_left oe_avatar"/>   
                             <field name="customer_id"/>
                             <field name="service_date"/>
-                            <field name="service_record_no"/>   
-
                         </group>
                         <group>
                             <field name="registration_no" />
@@ -47,26 +49,15 @@
                     </group>
                         <notebook>
                             <page string="Service lines">
-                                <field name="balancing_line_ids" mode="tree">
+                                <field name="service_line_ids">
                                     <tree>
-                                        <field name="service_invoice"/>   
                                         <field name="wheel_balanced"/>
                                         <field name="weight_used_in_gms"/>
-                                        <field name="total_charge"/>
-                                    </tree>
-                                </field>
-                                <field name="alighnment_line_ids">
-                                    <tree>
-                                        <field name="service_invoice"/>   
                                         <field name="align_position"/>
-                                        <field name="total_charge"/>
-                                    </tree>
-                                </field>
-                                <field name='misc_service_line_ids'>
-                                    <tree>
-                                        <field name="service_invoice"/>   
-                                        <field name="service_name"/>
-                                        <field name="service_charge"/>
+                                        <field name="other_service_name"/>
+                                        <field name="other_service_charge"/>
+                                        <field name="tyre_change_qty"/>
+                                        <field name="subtotal"/>
                                     </tree>
                                 </field>
                                 <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
