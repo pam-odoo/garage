@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 
 class VehicleServiceCharge(models.Model):
@@ -15,6 +15,8 @@ class VehicleServiceCharge(models.Model):
     bal_charge_per_gms_used = fields.Float('Balancing Weight Charge', default=0.0)
     charge_per_tire_change = fields.Float('Tyre Change Charge', default=0.0)
 
+    _sql_constraints = [('name_uniq', 'unique(vehicle_model, vehicle_make)', _('Can not have Two different Charges for same model!'))]
+
 
 class VehicleMake(models.Model):
     _name = 'vehicle.make'
@@ -24,7 +26,7 @@ class VehicleMake(models.Model):
     vehicle_make = fields.Char(string='Brand Name/ Make',)
     country = fields.Many2one('res.country')
 
-    _sql_constraints = [('name_uniq', 'unique(vehicle_make)', 'cannot have duplicate vehicle brand!')]
+    _sql_constraints = [('name_uniq', 'unique(vehicle_make)', _('You have already that brand in you base!'))]
 
 
 class VehicleModel(models.Model):
@@ -34,3 +36,5 @@ class VehicleModel(models.Model):
 
     vehicle_make = fields.Many2one('vehicle.make', string='Brand Name/ Make', required=True)
     vehicle_model = fields.Char(string='Model Name')
+
+    _sql_constraints = [('name_uniq', 'unique(vehicle_model)', _('Can not have duplicate vehicle model!'))]

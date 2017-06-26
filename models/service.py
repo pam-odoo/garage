@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 
 class ServiceInvoice(models.Model):
@@ -29,17 +29,16 @@ class ServiceLine(models.Model):
     _name = 'service.line'
     _description = 'Record of the each alighnment done in the vehicle like fornt wheel alignment'
 
-    @api.depends('align_position')
-    def _compute_total_charge(self):
-        """
-        Compute the amounts of the Service line.
-        """
-        pass
     service_invoice = fields.Many2one('vehicle.service')
+    vehicle_model = fields.Many2one('vehicle.model')
     align_position = fields.Selection([('front', 'Front'), ('rear', 'Rear')])
     wheel_balanced = fields.Integer('Total Wheel Balanced', store=True)
     weight_used_in_gms = fields.Float(string="Total Grams used", store=True)
     tyre_change_qty = fields.Integer(string='Tyre Change')
     other_service_name = fields.Char()
-    other_service_charge = fields.Float(required=True, readonly=True, store=True)
+    other_service_charge = fields.Float(required=True, store=True)
     subtotal = fields.Float(compute="_compute_total_charge", readonly=True, store=True)
+
+    @api.multi
+    def _compute_total_charge(self):
+        pass
