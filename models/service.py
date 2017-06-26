@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import re
 from datetime import datetime
 from odoo import models, fields, api, _
 
@@ -16,13 +17,22 @@ class ServiceInvoice(models.Model):
     registration_no = fields.Char('Registration No', store=True)
     odometer = fields.Integer('Odometer Reading (Km)', store=True)
     total = fields.Float(string='Total')
-    state = fields.Selection([('draft', 'Draft'), ('open', 'Open'), ('ready', 'Ready'), ('paid', 'Paid')], default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('open', 'Open'), ('ready', 'Ready'), ('paid', 'Paid'), ('closed', 'Closed')], default='draft')
     paid_timestamp = fields.Date('Date', default=datetime.now())
+
+    @api.constrains('registration_no')
+    def _check_registration_no(self):
+        reg_no_regex = "r^([a-zA-Z]){2}[\s]*\d{2}[\s]*([a-zA-z]){2}[\s]*\d{4}"
+        for record in self:
+            if not re.match(reg_no_regex, record.registration_no):
+                raise ValidationError("Vehicle registration number should be in GJ 01 RW 3534 format")
+    
 
     @api.model
     def create(self, vals):
         vals.update({'service_record_no': self.env['ir.sequence'].get('customer.invoice')})
         return super(customer, self).create(vals)
+    
 
 
 class ServiceLine(models.Model):

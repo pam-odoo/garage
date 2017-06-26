@@ -5,7 +5,7 @@
         <field name="name">vehicle.service.view.tree</field>
         <field name="model">vehicle.service</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="Vehicle Service">
                  <field name="customer_id"/>
                  <field name="service_record_no"/>
                  <field name="service_date"/>
@@ -13,7 +13,7 @@
                  <field name="vehicle_make_id"/>
                  <field name="vehicle_model_id"/>
                  <field name="odometer"/>
-                 <field name='service_line_ids'/>
+                 <field name='service_line_ids' invisible='1'/>
                  <field name="total"/>
             </tree>             
         </field> 
@@ -24,9 +24,19 @@
         <field name="arch" type="xml">
             <form string='Vehicle Service'>
                 <header>
-                <button name="_action_paid" string="Mark as Paid" type="action" class="btn-primary oe_highlight" attrs="{'invisible': [('state', '==', 'paid')]}"/>
-                <button name="_action_paid" string="Reset to Draft" type="action"  attrs="{'invisible': ['|',('state', '!=', 'paid'), ('state', '!=', 'ready')]}"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,open,ready,paid"/>   
+                <button name="action_open" string="Open for Service" type="object" attrs="{'invisible': ['|', ('state', 'in', ['paid', 'closed'])]}"/>
+
+                <button name="action_ready" string="Ready To deliver" type="object"  attrs="{'invisible': [('state', 'in', ['paid', 'closed'])]}"/>
+
+                <button name="action_paid" string="Mark as Paid" type="object"  attrs="{'invisible': [('state', 'in', ['paid', 'closed'])]}"/>
+                
+
+                <button name="action_close" string="Close Service" type="object"  attrs="{'invisible': [('state', 'in', ['closed'])]}"/>
+
+
+
+                <button name="action_draft" string="Reset to Draft" type="object"  attrs="{'invisible': [('state', 'in', ['paid', 'closed'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,ready,paid, closed" statusbar_colors="{'paid':'green', 'ready':'red'}"/>   
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -50,7 +60,7 @@
                         <notebook>
                             <page string="Service lines">
                                 <field name="service_line_ids">
-                                    <tree>
+                                    <tree editable="true">
                                         <field name="wheel_balanced"/>
                                         <field name="weight_used_in_gms"/>
                                         <field name="align_position"/>
@@ -65,7 +75,6 @@
                                 </group>
                             </page>
                         </notebook>
-                        
                 </sheet>
             </form>             
         </field> 
