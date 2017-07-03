@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<report 
-        id="vehicle_service_report"
-        model="vehicle_service"
-        string="Vehicle Service"
+	<data>
+        <report
+        id="vehicle_service"
+        model="vehicle.service"
+        string="Service"
         report_type="qweb-pdf"
-        name="garage.vehicle_service_report_template"
+        name="garage.vehicle_service_main_template"
+        file="garage.vehicle_service"
         attachment_use="False"
-        file="garage.vehicle_service_report"
-    />
+        />
+    </data>
 </odoo>

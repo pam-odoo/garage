@@ -62,30 +62,12 @@ class VehiclesService(models.Model):
     def action_close(self):
         self.write({'state': 'closed'})
 
-    @api.onchange('service_line_ids', 'vehicle_model_id')
+    @api.depends('service_line_ids', 'vehicle_model_id')
     def compute_total(self):
-        vehicle_model_id = self.vehicle_model_id
-        service_charges = self.env['service.charge'].search([('vehicle_model', "=", vehicle_model_id.id)])
-
-        if self.service_line_ids and service_charges:
-            lump_sum = 0.00
-            for service_line in self.service_line_ids:
-                if service_line.align_position == "front":
-                    lump_sum += service_charges.alg_charge_front
-                else:
-                    lump_sum += service_charges.alg_charge_rear
-
-                if service_line.wheel_balanced:
-                    lump_sum += (service_line.wheel_balanced * service_charges.balance_charge_per_tire)
-                if service_line.weight_used_in_gms:
-                    lump_sum += service_line.weight_used_in_gms * (service_charges.bal_charge_per_gms_used)
-                if service_line.tyre_change_qty:
-                    lump_sum += (service_line.tyre_change_qty) * (service_charges.charge_per_tire_change)
-                if service_line.other_service_charge:
-                    lump_sum += service_line.other_service_charge
-                self.total = lump_sum
-        else:
-            raise ValidationError(_("Define charges for the specified model for price calculation in Configuration--> serrvice charges section"))
+        sub_total = 0
+        for line in self.service_line_ids:
+            sub_total += line.subtotal
+        self.total = sub_total
 
     @api.model
     def create(self, vals):

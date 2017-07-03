@@ -24,18 +24,18 @@
         <field name="arch" type="xml">
         	<form string="Vehicle Service">
                 <header>
-                <button name="action_open" string="Open for Service" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed', 'open', 'ready'])]}" icon="fa-folder-open" groups="garage_groups.garage_manager"/>
+                <button name="action_open" string="Open for Service" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed', 'open', 'ready'])]}" icon="fa-folder-open"/>
 
-                <button name="action_ready" string="Ready To deliver" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed', 'ready'])]}" groups="garage_groups.garage_manager"/>
+                <button name="action_ready" string="Ready To deliver" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed', 'ready'])]}"/>
 
-                <button name="action_paid" string="Mark as Paid" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed', 'open'])]}" groups="garage_groups.garage_manager"/>
+                <button name="action_paid" string="Mark as Paid" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed', 'open'])]}"/>
 
-                <button name="action_paid" string="Create Invoice" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed'])]}" groups="garage_groups.garage_manager"/>
+                <button name="action_paid" string="Create Invoice" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed'])]}"/>
                 
 
-                <button name="action_close" string="Close Service" type="object" attrs="{'invisible': [('state', 'in', ['closed', 'draft', 'open', 'ready'])]}" groups="garage_groups.garage_manager"/>
+                <button name="action_close" string="Close Service" type="object" attrs="{'invisible': [('state', 'in', ['closed', 'draft', 'open', 'ready'])]}"/>
 
-                <button name="action_draft" string="Reset to Draft" type="object" attrs="{'invisible': [('state', 'in', ['paid'])]}" groups="garage_groups.garage_manager"/>
+                <button name="action_draft" string="Reset to Draft" type="object" attrs="{'invisible': [('state', 'in', ['paid'])]}"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,open,ready,paid, closed" statusbar_colors="{'paid':'green', 'ready':'red'}"/>   
                 </header>
                 <sheet>

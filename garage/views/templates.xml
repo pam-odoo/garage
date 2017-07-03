@@ -2,11 +2,92 @@
     <data>
         <template id="vehicle_service_report_template">
             <t t-call="report.external_layout">
+                <t t-set="doc" t-value="doc.with_context({'lang':doc.customer_id.lang})"/>
                 <div class="page">
+                    <div class="oe_structure"/>
                     <div class="row">
-                        <h3>Title</h3>
+                        <div class="col-xs-6">
+                            <strong >Invoicing and shipping address:</strong>
+                            <div t-field="doc.customer_id"
+                                t-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": True, "phone_icons": True}'/>
+                        </div>
+                    </div>
+                    <h2>
+                        <span t-if="doc.state in ['paid', 'closed']">Order # </span>
+                        <span t-if="doc.state not in ['paid', 'closed']">Quotation # </span>
+                        <span t-field="doc.service_record_no"/>
+                    </h2>
+                     <div class="row mt32 mb32" id="informations">
+                        <div t-if="doc.service_record_no" class="col-xs-3">
+                            <strong>Your Reference:</strong>
+                            <p t-field="doc.service_record_no"/>
+                        </div>
+                        <div t-if="doc.service_date" class="col-xs-3">
+                            <strong t-if="doc.state in ['paid','closed']">Date Ordered:</strong>
+                            <strong t-if="doc.state  not in ['paid','closed']">Quotation Date:</strong>
+                            <p t-field="doc.service_date"/>
+                        </div>
+                    </div>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th class="text-right">align_position</th>
+                                <th class="text-right">Aligh. Charge</th>
+                                <th class="text-right">Wheel Bal.(Qty)</th>
+                                <th class="text-right">Bal. Charge</th>
+                                <th class="text-right">Tyre Qty(No.)</th>
+                                <th class="text-right">Tyre Charge</th>
+                                <th class="text-right">Weight(gms)</th>
+                                <th class="text-right">weight charge</th>
+                                <th class="text-right">other servicename</th>
+                                <th class="text-right">other service charge</th>
+                                <th class="text-right price_tax_included">Total Price</th>
+                            </tr>
+                       </thead>
+                        <tbody class="sale_tbody">
+                        <t t-foreach="doc.service_line_ids" t-as="line">
+                            <tr class="text-right">
+                                <td><t t-esc="line.align_position"/></td>
+                                <td><t t-esc="line.alignment_charge"/></td>
+                                <td><t t-esc="line.wheel_balanced"/></td>
+                                <td><t t-esc="line.wheel_balancing_charge"/></td>
+                                <td><t t-esc="line.tyre_change_qty"/></td>
+                                <td><t t-esc="line.tyre_change_charge"/></td>
+                                <td><t t-esc="line.weight_used_in_gms"/></td>
+                                <td><t t-esc="line.weight_charge"/></td>
+                                <td><t t-esc="line.other_service_name"/></td>
+                                <td><t t-esc="line.other_service_charge"/></td>
+                                
+                            </tr>
+                        </t>
+                    </tbody>
+                   </table>
+                   <div class="row" name="total">
+                        <div class="col-xs-4 pull-right">
+                            <table class="table table-condensed">
+                                <tr class="border-black">
+                                    <td><strong>Total Without Taxes</strong></td>
+                                    <td class="text-right">
+                                      <t t-esc="subtotal"/>
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-right">
+                                        <t t-esc="subtotal"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
+            </t>
+        </template>
+        <template id="vehicle_service_main_template">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="garage.vehicle_service_report_template" t-lang="doc.customer_id.lang"/>
+                </t>
             </t>
         </template>
     </data>
