@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_garage_vehicle_service_user,Vehicle Service User,model_vehicle_service,garage_customers,1,0,0,0
+access_garage_vehicle_service_manager,Vehicle Service Manager,model_vehicle_service,garage_manager,1,0,0,0
+access_garage_service_line_user,Service Line User,model_service_line,garage_customers,1,0,0,0
+access_garage_service_line_manager,Service Line Manager,model_service_line,garage_manager,1,1,1,1
+access_garage_vehicle_make_user,Vehicle Make User,model_vehicle_make,garage_customers,1,0,0,0
+access_garage_vehicle_make_manager,Vehicle Make Manager,model_vehicle_make,garage_manager,1,1,1,1
+access_garage_vehicle_model_user,Vehicle Model User,model_vehicle_model,garage_customers,1,0,0,0
+access_garage_vehicle_model_manager,Vehicle Model Manager,model_vehicle_model,garage_manager,1,1,1,1
+access_garage_service_charge_user,Service Charge User,model_service_charge,garage_customers,1,0,0,0
+access_garage_service_charge_manager,Service Charge Manager,model_service_charge,garage_manager,1,1,1,1
+

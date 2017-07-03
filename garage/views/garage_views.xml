@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- vehicle service views -->
+    <record id='vehicle_service_view_tree' model='ir.ui.view'>
+        <field name="name">vehicle.service.view.tree</field>
+        <field name="model">vehicle.service</field>
+        <field name="arch" type="xml">
+            <tree>
+                 <field name="customer_id"/>
+                 <field name="service_record_no"/>
+                 <field name="service_date"/>
+                 <field name="registration_no" />
+                 <field name="vehicle_make_id"/>
+                 <field name="vehicle_model_id"/>
+                 <field name="odometer"/>
+                 <field name='service_line_ids'/>
+                 <field name="total"/>
+            </tree>             
+        </field> 
+    </record>
+    <record id='vehicle_service_view_form' model='ir.ui.view'>
+        <field name="name">vehicle.service.view.form</field>
+        <field name="model">vehicle.service</field>
+        <field name="arch" type="xml">
+        	<form string="Vehicle Service">
+                <header>
+                <button name="action_open" string="Open for Service" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed', 'open', 'ready'])]}" icon="fa-folder-open" groups="garage_groups.garage_manager"/>
+
+                <button name="action_ready" string="Ready To deliver" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed', 'ready'])]}" groups="garage_groups.garage_manager"/>
+
+                <button name="action_paid" string="Mark as Paid" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed', 'open'])]}" groups="garage_groups.garage_manager"/>
+
+                <button name="action_paid" string="Create Invoice" type="object" attrs="{'invisible': [('state', 'in', ['paid', 'closed'])]}" groups="garage_groups.garage_manager"/>
+                
+
+                <button name="action_close" string="Close Service" type="object" attrs="{'invisible': [('state', 'in', ['closed', 'draft', 'open', 'ready'])]}" groups="garage_groups.garage_manager"/>
+
+                <button name="action_draft" string="Reset to Draft" type="object" attrs="{'invisible': [('state', 'in', ['paid'])]}" groups="garage_groups.garage_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,ready,paid, closed" statusbar_colors="{'paid':'green', 'ready':'red'}"/>   
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="service_record_no" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="image" widget="image" class="oe_left oe_avatar"/>   
+                            <field name="customer_id"/>
+                            <field name="service_date"/>
+                        </group>
+                        <group>
+                            <field name="registration_no"/>
+                            <field name="vehicle_model_id"/>
+                            <field name="vehicle_make_id" attrs="{'invisible':[('vehicle_model_id', '==', False)]}"/>
+                            <field name="odometer"/>
+                        </group>
+                    </group>
+                        <notebook>
+                            <page string="Service lines">
+                                <field name="service_line_ids" attrs="{'invisible':[('vehicle_make_id', '==', False)]}">
+                                    <tree editable="true">
+                                        <field name="align_position"/>
+                                        <field name="alignment_charge"/>
+                                        <field name="weight_used_in_gms"/>
+                                        <field name="weight_charge"/>
+                                        <field name="wheel_balanced"/>
+                                        <field name="wheel_balancing_charge"/>
+                                        <field name="tyre_change_qty"/>
+                                        <field name="tyre_change_charge"/>
+                                        <field name="other_service_name"/>
+                                        <field name="other_service_charge"/>
+                                        <field name="subtotal"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="total" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                </sheet>
+            </form>             
+                     
+        </field> 
+    </record>
+    <record id='vehicle_service_kanban' model='ir.ui.view'>
+    	<field name='name'>vehicle.service</field>
+    	<field name='model'>vehicle.service</field>
+    	<field name='arch' type='xml'>
+    		<kanban default_group_by="state">
+                <field name="service_record_no"/>
+                <field name="customer_id"/>
+                <field name="service_date"/>
+                <field name="vehicle_make_id"/>
+                <field name="vehicle_model_id"/>
+                <field name="odometer"/>
+                <field name="registration_no"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <link href="/garage/static/src/css/service_kanban.css" rel="stylesheet" type="text/css"/>
+                        <link href="/garage/static/src/css/w3.css" rel="stylesheet" type="text/css"/>
+                         <div class="card oe_kanban_global_click">
+                            <div class="container">
+                                <div t-if="record.state.raw_value ==='ready'" class="oe_payment_button">
+                                    <button name="action_paid" string="Mark as Paid" type="object" class="btn btn-primary oe_kanban_action oe_kanban_action_button">Mark Paid</button>
+                                </div>
+                                <div class="w3-container">
+                                    <div class="w3-tag w3-round w3-green" style="padding:3px">
+                                        <div class="w3-tag w3-round w3-green w3-border w3-border-white">
+                                        <field name="state"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="service status"/>
+                                <h4><b><field name="vehicle_model_id"/></b></h4>
+                                <p><field name="paid_timestamp"/></p>
+                                <p><field name="odometer"/> Kms</p>
+                            </div>
+                        </div> 
+                    </t>
+                </templates>
+            </kanban>
+    	</field>
+    </record>
+    <!-- record rule for to see own records -->
+    <record id="see_own_service_records" model="ir.rule">
+	    <field name="name">Can see Only their own vehicle</field>
+	    <field name="model_id" ref="garage.model_vehicle_service"/>
+	    <field name="groups" eval="[(4, ref('garage.garage_customers'))]"/>
+	    <field name="perm_read" eval="1"/>
+	    <field name="perm_write" eval="0"/>
+	    <field name="perm_create" eval="0"/>
+	    <field name="perm_unlink" eval="0" />
+	    <field name="domain_force">[('customer_id.id','=',user.partner_id.id)]</field>
+	</record>
+
+    <record id="vehicle_service_action" model="ir.actions.act_window">
+        <field name="name">Vehicle Service</field>
+        <field name="res_model">vehicle.service</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+        <menuitem id ="garage_menu_root" sequence="1" name="Garage"/>
+        <menuitem id="vehicle_service_menu_root" name="Vehicle Service" parent="garage_menu_root" sequence="1"/>
+        <menuitem id="vehicle_service_menu_action" name="Service Records" parent="vehicle_service_menu_root" action="vehicle_service_action"/>
+</odoo>

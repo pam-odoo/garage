@@ -1,0 +1,21 @@
+<odoo>
+    <data noupdate='1'>
+        <record id="garage_group_category" model="ir.module.category">
+            <field name="name">Garage User Category</field>
+            <field name="description">The Category User Belongs to</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="garage_customers" model="res.groups">
+            <field name="name">Customers</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="garage_group_category"/>
+        </record>
+     
+        <record id="garage_manager" model="res.groups">
+          <field name="name">Manager</field>
+          <field name="implied_ids" eval="[(4, ref('garage_customers'))]"/>
+          <field name="category_id" ref="garage_group_category"/>
+        </record>
+    </data>
+</odoo>
