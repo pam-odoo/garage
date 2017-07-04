@@ -4,9 +4,8 @@
             <t t-call="report.external_layout">
                 <t t-set="doc" t-value="doc.with_context({'lang':doc.customer_id.lang})"/>
                 <div class="page">
-                    <div class="oe_structure"/>
                     <div class="row">
-                        <div class="col-xs-6">
+                        <div class="col-xs-6" style="margin-top:20px;">
                             <strong >Invoicing and shipping address:</strong>
                             <div t-field="doc.customer_id"
                                 t-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": True, "phone_icons": True}'/>
@@ -18,35 +17,43 @@
                         <span t-field="doc.service_record_no"/>
                     </h2>
                      <div class="row mt32 mb32" id="informations">
-                        <div t-if="doc.service_record_no" class="col-xs-3">
-                            <strong>Your Reference:</strong>
-                            <p t-field="doc.service_record_no"/>
-                        </div>
                         <div t-if="doc.service_date" class="col-xs-3">
                             <strong t-if="doc.state in ['paid','closed']">Date Ordered:</strong>
                             <strong t-if="doc.state  not in ['paid','closed']">Quotation Date:</strong>
                             <p t-field="doc.service_date"/>
                         </div>
+                        <div class="col-xs-3 text-left">
+                            <strong>Vehicle: </strong>
+                            <p t-field="doc.vehicle_model_id.vehicle_model"/>
+                        </div>
+                        <div class="col-xs-3 text-left">
+                            <strong>Reg.No: </strong>
+                            <p t-field="doc.registration_no"/>
+                        </div>
+                        <div class="col-xs-3 text-left">
+                            <strong>Kms </strong>
+                            <p t-field="doc.odometer"/>
+                        </div>
                     </div>
                     <table class="table table-condensed">
-                        <thead>
+                        <thead style="vertical-align:top;">
                             <tr>
-                                <th class="text-right">align_position</th>
-                                <th class="text-right">Aligh. Charge</th>
-                                <th class="text-right">Wheel Bal.(Qty)</th>
-                                <th class="text-right">Bal. Charge</th>
-                                <th class="text-right">Tyre Qty(No.)</th>
-                                <th class="text-right">Tyre Charge</th>
-                                <th class="text-right">Weight(gms)</th>
-                                <th class="text-right">weight charge</th>
-                                <th class="text-right">other servicename</th>
-                                <th class="text-right">other service charge</th>
-                                <th class="text-right price_tax_included">Total Price</th>
+                                <th class="text-left" style="vertical-align:top;">Align Position</th>
+                                <th class="text-left" style="vertical-align:top;">Aligh. Charge</th>
+                                <th class="text-left" style="vertical-align:top;">Wheel Bal.(Qty)</th>
+                                <th class="text-left" style="vertical-align:top;">Bal. Charge</th>
+                                <th class="text-left" style="vertical-align:top;">Tyre Qty(No.)</th>
+                                <th class="text-left" style="vertical-align:top;">Tyre Charge</th>
+                                <th class="text-left" style="vertical-align:top;">Weight(gms)</th>
+                                <th class="text-left" style="vertical-align:top;">weight charge</th>
+                                <th class="text-left" style="vertical-align:top;">other servicename</th>
+                                <th class="text-left" style="vertical-align:top;">other service charge</th>
+                                <th class="text-left price_tax_included" style="vertical-align:top;">Total Price</th>
                             </tr>
                        </thead>
                         <tbody class="sale_tbody">
                         <t t-foreach="doc.service_line_ids" t-as="line">
-                            <tr class="text-right">
+                            <tr class="text-left">
                                 <td><t t-esc="line.align_position"/></td>
                                 <td><t t-esc="line.alignment_charge"/></td>
                                 <td><t t-esc="line.wheel_balanced"/></td>
