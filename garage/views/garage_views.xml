@@ -51,7 +51,7 @@
                             <field name="service_date"/>
                         </group>
                         <group>
-                            <field name="registration_no"/>
+                            <field name="registration_no" widget="RtoRegNo"/>
                             <field name="vehicle_model_id"/>
                             <field name="vehicle_make_id" attrs="{'invisible':[('vehicle_model_id', '==', False)]}"/>
                             <field name="odometer"/>

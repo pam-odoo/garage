@@ -10,7 +10,7 @@
     * Expense
     * Accounting
     """,
-    'depends': ['base', 'hr', 'report'],
+    'depends': ['base', 'hr', 'report', 'website'],
     'data': [
         'security/garage_groups.xml',
         'security/ir.model.access.csv',
@@ -23,4 +23,5 @@
     'installable': True,
     'auto_install': False,
     'application': True,
+    'qweb': ['static/src/xml/garage.xml', ],
 }

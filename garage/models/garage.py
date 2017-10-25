@@ -71,7 +71,9 @@ class VehiclesService(models.Model):
 
     @api.model
     def create(self, vals):
-        vals.update({'service_record_no': self.env['ir.sequence'].get('customer.invoice')})
+        import pdb
+        pdb.set_trace()
+        vals.update({'service_record_no': self.env['ir.sequence'].next_by_code('customer.invoice')})
         return super(VehiclesService, self).create(vals)
 
     @api.multi
